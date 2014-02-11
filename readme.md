@@ -22,35 +22,36 @@ compile-time error indicating that field 'id' is missing in her fixture's entrie
 # The Gentle(wo)man's Typing Paradigm
 
 1. Don't use typescript's classes! Use interfaces for object signatures, and var ascriptions for module signatures.
-The great feature of typescript's interfaces is that they are open for future refinements. Typescript's classes,
-on the other hand, are closed and thus unacceptable for most javascript.
+    The great feature of typescript's interfaces is that they are open for future refinements. Typescript's classes,
+    on the other hand, are closed and thus unacceptable for most javascript.
 
-Example:
+    Example:
 
-```
-    interface Application {
-        ApplicationAdapter: DS.Adapter;
-        Store: DS.Store;
-        Router: Ember.Router;
-    }
+    ```ts
+        interface Application {
+            ApplicationAdapter: DS.Adapter;
+            Store: DS.Store;
+            Router: Ember.Router;
+        }
 
-    var Application: {
-        create(options?: TsApplicationOptions): any;
-    };
-```
+        var Application: {
+            create(options?: TsApplicationOptions): any;
+        };
+    ```
 
 2. Use mixin-typing for methods like create and extend.
-This gives autocompletion and typecheck inside arguments of those methods invocations.
-Example:
+    This gives autocompletion and typecheck inside arguments of those methods invocations.
 
-```javascript
-    interface TsApplicationOptions {
-        customEvents?: {};
-        rootElement?: string;
-        LOG_TRANSITIONS?: boolean;
-        LOG_TRANSITIONS_INTERNAL?: boolean;
-    }
-```
+    Example:
+
+    ```ts
+        interface TsApplicationOptions {
+            customEvents?: {};
+            rootElement?: string;
+            LOG_TRANSITIONS?: boolean;
+            LOG_TRANSITIONS_INTERNAL?: boolean;
+        }
+    ```
 <!--
 3. Mimic this-typing which is not yet present in Typescript by using contextually typed function expressions (4.9.3)
 with interfaces which have exactly one call signature and any number of optional fields/methods.
