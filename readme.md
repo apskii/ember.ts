@@ -52,37 +52,7 @@ compile-time error indicating that field 'id' is missing in her fixture's entrie
             LOG_TRANSITIONS_INTERNAL?: boolean;
         }
     ```
-<!--
-3. Mimic this-typing which is not yet present in Typescript by using contextually typed function expressions (4.9.3)
-with interfaces which have exactly one call signature and any number of optional fields/methods.
-
-
-This allows proper typing of callbacks passed to methods which call them on another objects.
-
-```javascript
-interface RouterDSL { //...
-    route?(name: string, options?: RouterOptions): void;
-}
-
-interface ThisRouterDSL extends RouterDSL {
-    (...any): any;
-}
-
-var Router: {
-    map(mapper: ThisRouterDSL): typeof Router;
-};
-
-MyApp.Router.map(function () {
-    // here, this is typed properly
-    this.route('day', { path: '/:date' });
-});
-```
--->
 
 # Naming Conventions
-
-<!--
-This-typing callback's type is prefixed with 'This', for example 'RouterDSL' -> 'ThisRouterDSL'.
--->
 
 Additional interfaces, which are not present in Ember sources or docs, are prefixed with 'Ts'.
