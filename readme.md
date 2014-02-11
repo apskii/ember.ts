@@ -35,7 +35,7 @@ compile-time error indicating that field 'id' is missing in her fixture's entrie
         }
 
         var Application: {
-            create(options?: TsApplicationOptions): any;
+            create(options?: TsApplicationOptions): Application;
         };
     ```
 
