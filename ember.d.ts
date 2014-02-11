@@ -95,6 +95,16 @@ declare module Ember {
     var ObjectController: {
         extend(...mixins: any[]): ObjectController;
     };
+    interface Component {
+        tagName?: string;
+        classNames?: string[];
+        classNameBindings?: string[];
+        attributeBindings?: string[];
+        actions?: {};
+    }
+    var Component: {
+        extend(...mixins: Component[]): Component;
+    };
     interface ComputedProperty {
         /**
          * Properties are cacheable by default.
