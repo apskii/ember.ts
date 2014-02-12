@@ -23,19 +23,28 @@ declare module DS {
         find?(type: string, query: {}): PromiseArray;
         find?(type: DS.Model, query: {}): PromiseArray;
         all?(name: string): any;
+        createRecord?(type: String, record: {}): DS.Model;
+        createRecord?(type: DS.Model, record: {}): DS.Model;
+        updateRecord?(type: string, record: {}): any;
+        updateRecord?(type: DS.Model, record: {}): any;
+        deleteRecord?(type: string, record: {}): any;
+        deleteRecord?(type: DS.Model, record: {}): any;
     }
     var Store: {
         create(options?: { adapter: any }): Store;
         extend(...mixins: Store[]): Store;
     };
     interface Model {
-        FIXTURES?: { id: number }[];
+        get?(key: string): any;
+        set?(key: string, val: any): any;
+        save?(): Ember.RSVP.Promise<any>;
     }
     var Model: {
-        extend(...mixins: {}[]): Model;
+        extend(...mixins: {}[]): typeof Model;
+        FIXTURES: { id: number }[];
     };
     interface TsAdapterMixin {
-        find?(store: DS.Store, type: any, idOrQuery: any): Ember.RSVP.Promise<any>;
+        find?(store: DS.Store, type: any, idOrQuery: any): Ember.RSVP.Promise<DS.Model>;
         findMany?(store: DS.Store, type: any, ids: number[]): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
         findAll?(store: DS.Store, type: any): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
         findQuery?(store: DS.Store, type: any, query: {}): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
@@ -51,6 +60,12 @@ declare module DS {
         findAll?(store: DS.Store, type: DS.Model): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
         findQuery?(store: DS.Store, type: string, query: {}): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
         findQuery?(store: DS.Store, type: DS.Model, query: {}): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
+        createRecord?(store: DS.Store, type: string, record: {}): Ember.RSVP.Promise<DS.Model>;
+        createRecord?(store: DS.Store, type: DS.Model, record: {}): Ember.RSVP.Promise<DS.Model>;
+        updateRecord?(store: DS.Store, type: string, record: {}): Ember.RSVP.Promise<DS.Model>;
+        updateRecord?(store: DS.Store, type: DS.Model, record: {}): Ember.RSVP.Promise<DS.Model>;
+        deleteRecord?(store: DS.Store, type: string, record: {}): Ember.RSVP.Promise<DS.Model>;
+        deleteRecord?(store: DS.Store, type: DS.Model, record: {}): Ember.RSVP.Promise<DS.Model>;
     }
     var Adapter: {
         extend(...mixins: TsAdapterMixin[]): Adapter;
@@ -66,6 +81,7 @@ declare module DS {
 declare module Ember.RSVP {
     interface Promise<T> {
         then<Y>(fn: (val: T) => Y): Promise<Y>;
+        then<Y>(fn: () => Y): Promise<Y>;
     }
     function resolve<T>(value?: T, label?: string): Promise<T>;
     var Promise: {
