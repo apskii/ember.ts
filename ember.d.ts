@@ -35,7 +35,7 @@ declare module DS {
         extend(...mixins: Store[]): Store;
     };
     interface Model {
-        get?(key: string): any;
+        get?(key: string): Ember.RSVP.Promise<any>;
         set?(key: string, val: any): any;
         save?(): Ember.RSVP.Promise<any>;
     }
