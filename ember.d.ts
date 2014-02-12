@@ -34,20 +34,26 @@ declare module DS {
     var Model: {
         extend(...mixins: {}[]): Model;
     };
+    interface TsAdapterMixin {
+        find?(store: DS.Store, type: any, idOrQuery: any): Ember.RSVP.Promise<any>;
+        findMany?(store: DS.Store, type: any, ids: number[]): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
+        findAll?(store: DS.Store, type: any): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
+        findQuery?(store: DS.Store, type: any, query: {}): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
+    }
     interface Adapter {
-        find?(store: DS.Store, type: string, id: number): Ember.RSVP.Promise;
-        find?(store: DS.Store, type: DS.Model, id: number): Ember.RSVP.Promise;
-        find?(store: DS.Store, type: string, query: {}): Ember.RSVP.Promise;
-        find?(store: DS.Store, type: DS.Model, query: {}): Ember.RSVP.Promise;
-        findMany?(store: DS.Store, type: string, ids: number[]): Ember.RSVP.Promise;
-        findMany?(store: DS.Store, type: DS.Model, ids: number[]): Ember.RSVP.Promise;
-        findAll?(store: DS.Store, type: string): Ember.RSVP.Promise;
-        findAll?(store: DS.Store, type: DS.Model): Ember.RSVP.Promise;
-        findQuery?(store: DS.Store, type: string, query: {}): Ember.RSVP.Promise;
-        findQuery?(store: DS.Store, type: DS.Model, query: {}): Ember.RSVP.Promise;
+        find?(store: DS.Store, type: string, id: number): Ember.RSVP.Promise<DS.Model>;
+        find?(store: DS.Store, type: DS.Model, id: number): Ember.RSVP.Promise<DS.Model>;
+        find?(store: DS.Store, type: string, query: {}): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
+        find?(store: DS.Store, type: DS.Model, query: {}): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
+        findMany?(store: DS.Store, type: string, ids: number[]): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
+        findMany?(store: DS.Store, type: DS.Model, ids: number[]): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
+        findAll?(store: DS.Store, type: string): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
+        findAll?(store: DS.Store, type: DS.Model): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
+        findQuery?(store: DS.Store, type: string, query: {}): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
+        findQuery?(store: DS.Store, type: DS.Model, query: {}): Ember.RSVP.Promise<Ember.Array<DS.Model>>;
     }
     var Adapter: {
-        extend(...mixins: Adapter[]): Adapter;
+        extend(...mixins: TsAdapterMixin[]): Adapter;
     };
     interface FixtureAdapter extends Adapter {}
     var FixtureAdapter: {
@@ -58,15 +64,20 @@ declare module DS {
 }
 
 declare module Ember.RSVP {
-    interface Promise {}
-    function resolve(value?: any, label?: string): Promise;
+    interface Promise<T> {
+        then<Y>(fn: (val: T) => Y): Promise<Y>;
+    }
+    function resolve<T>(value?: T, label?: string): Promise<T>;
     var Promise: {
-        all(...promises: Promise[]): Promise;
-        all(...any): Promise;
+        all(...promises: Promise<any>[]): Promise<any>;
+        all(...any): Promise<any>;
     };
 }
 
 declare module Ember {
+    interface Array<T> {
+        filter(fn: (item: T, index?: number, enumerable?) => boolean, target?): Array<T>;
+    }
     interface TsApplicationOptions {
         customEvents?: {};
         rootElement?: string;
@@ -404,19 +415,19 @@ declare module Ember {
          *
          * @param callback
          */
-        catch(callback: Function): RSVP.Promise;
+        catch(callback: Function): RSVP.Promise<any>;
         /**
          * An alias to the proxied promise's finally. See RSVP.Promise.finally.
          *
          * @param callback
          */
-        finally(callback: Function): RSVP.Promise;
+        finally(callback: Function): RSVP.Promise<any>;
         /**
          * An alias to the proxied promise's then. See RSVP.Promise.then.
          *
          * @param callback
          */
-        then(callback: Function): RSVP.Promise;
+        then(callback: Function): RSVP.Promise<any>;
         isFullfilled: boolean;
         isPending: boolean;
         isRejected: boolean;
