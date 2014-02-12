@@ -17,8 +17,11 @@ declare module DS {
     function belongsTo(type?: any, options?: TsRelationOptions): any;
     interface Store {
         find?(type: string): PromiseArray;
+        find?(type: DS.Model): PromiseArray;
         find?(type: string, id: number): PromiseObject;
+        find?(type: DS.Model, id: number): PromiseObject;
         find?(type: string, query: {}): PromiseArray;
+        find?(type: DS.Model, query: {}): PromiseArray;
         all?(name: string): any;
     }
     var Store: {
@@ -26,14 +29,25 @@ declare module DS {
         extend(...mixins: Store[]): Store;
     };
     interface Model {
-        FIXTURES: { id: number }[];
+        FIXTURES?: { id: number }[];
     }
     var Model: {
         extend(...mixins: {}[]): Model;
     };
-    interface Adapter {}
+    interface Adapter {
+        find?(store: DS.Store, type: string, id: number): Ember.RSVP.Promise;
+        find?(store: DS.Store, type: DS.Model, id: number): Ember.RSVP.Promise;
+        find?(store: DS.Store, type: string, query: {}): Ember.RSVP.Promise;
+        find?(store: DS.Store, type: DS.Model, query: {}): Ember.RSVP.Promise;
+        findMany?(store: DS.Store, type: string, ids: number[]): Ember.RSVP.Promise;
+        findMany?(store: DS.Store, type: DS.Model, ids: number[]): Ember.RSVP.Promise;
+        findAll?(store: DS.Store, type: string): Ember.RSVP.Promise;
+        findAll?(store: DS.Store, type: DS.Model): Ember.RSVP.Promise;
+        findQuery?(store: DS.Store, type: string, query: {}): Ember.RSVP.Promise;
+        findQuery?(store: DS.Store, type: DS.Model, query: {}): Ember.RSVP.Promise;
+    }
     var Adapter: {
-        extend(...mixins: {}[]): Adapter;
+        extend(...mixins: Adapter[]): Adapter;
     };
     interface FixtureAdapter extends Adapter {}
     var FixtureAdapter: {
