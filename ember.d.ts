@@ -5,6 +5,7 @@
 
 interface Function {
     property(...dependentKeys: string[]): Ember.ComputedProperty;
+    observes(...dependentKeys: string[]): any;
 }
 
 declare module DS {
