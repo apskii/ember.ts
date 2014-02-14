@@ -94,9 +94,6 @@ declare module Ember {
     interface Array<T> {
         filter(fn: (item: T, index?: number, enumerable?) => boolean, target?): Array<T>;
     }
-    interface ArrayController {
-        addObject(object: any): any;
-    }
     interface TsApplicationOptions {
         customEvents?: {};
         rootElement?: string;
@@ -112,13 +109,24 @@ declare module Ember {
         create(options?: TsApplicationOptions): Application;
     };
     interface Observable {
-        get(key: string): any;
-        set(key: string, val: any): Observable;
+        get?(key: string): any;
+        set?(key: string, val: any): Observable;
     }
     interface Route {
         setupController?(controller: Controller, model: any): void;
         model?(params?: any): any;
         store?: DS.Store;
+        /**
+         * Transition into another route. Optionally supply model(s) for the route in question.
+         * If multiple models are supplied they will be applied last to first recursively up
+         * the resource tree (see Multiple Models Example below).
+         * The model(s) will be serialized into the URL using the appropriate route's serialize hook.
+         * See also 'replaceWith'.
+         *
+         * @param routeName
+         * @param models
+         */
+        transitionTo?(routeName: string, ...models: {}[]): void;
     }
     var Route: {
         extend(...mixins: Route[]): Route;
@@ -134,7 +142,16 @@ declare module Ember {
         resource?(name: string, callback: Function): void;
         route?(name: string, options?: RouterOptions): void;
     }
-    interface Controller extends Observable {}
+    interface Controller {
+        get?(key: string): any;
+        set?(key: string, val: any): any;
+    }
+    interface ArrayController extends Controller {
+        addObject?(object: any): any;
+    }
+    var ArrayController: {
+        extend(...mixins: ArrayController[]): ArrayController;
+    };
     interface ObjectController extends Controller {}
     var ObjectController: {
         extend(...mixins: any[]): ObjectController;
