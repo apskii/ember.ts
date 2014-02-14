@@ -94,6 +94,9 @@ declare module Ember {
     interface Array<T> {
         filter(fn: (item: T, index?: number, enumerable?) => boolean, target?): Array<T>;
     }
+    interface ArrayController {
+        addObject(object: any): any;
+    }
     interface TsApplicationOptions {
         customEvents?: {};
         rootElement?: string;
