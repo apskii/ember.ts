@@ -91,6 +91,7 @@ declare module Ember.RSVP {
 }
 
 declare module Ember {
+    var Handlebars: any;
     interface Array<T> {
         filter(fn: (item: T, index?: number, enumerable?) => boolean, target?): Array<T>;
     }
