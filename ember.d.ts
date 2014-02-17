@@ -156,7 +156,9 @@ declare module Ember {
     var ArrayController: {
         extend(...mixins: ArrayController[]): ArrayController;
     };
-    interface ObjectController extends Controller {}
+    interface ObjectController extends Controller {
+        _super: Function;
+    }
     var ObjectController: {
         extend(...mixins: any[]): ObjectController;
     };
