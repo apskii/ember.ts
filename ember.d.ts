@@ -6,6 +6,7 @@
 interface Function {
     property(...dependentKeys: string[]): Ember.ComputedProperty;
     observes(...dependentKeys: string[]): any;
+    on(...dependentKeys: string[]): any;
 }
 
 declare module DS {
@@ -92,6 +93,7 @@ declare module Ember.RSVP {
 }
 
 declare module Ember {
+    var $: any;
     var Handlebars: any;
     interface Array<T> {
         filter(fn: (item: T, index?: number, enumerable?) => boolean, target?): Array<T>;
@@ -167,6 +169,10 @@ declare module Ember {
     }
     var Component: {
         extend(...mixins: Component[]): Component;
+    };
+    interface TextField extends Component {}
+    var TextField: {
+        extend(...mixins: TextField[]): TextField;
     };
     interface ComputedProperty {
         /**
