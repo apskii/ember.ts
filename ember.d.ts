@@ -115,6 +115,10 @@ declare module Ember {
     interface Observable {
         get?(key: string): any;
         set?(key: string, val: any): Observable;
+        addObserver(key: String, target: any, method: Function): any;
+        addObserver(key: String, target: any, method: String): any;
+        removeObserver(key: String, target: any, method: Function): Observable;
+        removeObserver(key: String, target: any, method: String): Observable;
     }
     interface Route {
         setupController?(controller: Controller, model: any): void;
