@@ -56,3 +56,14 @@ compile-time error indicating that field 'id' is missing in her fixture's entrie
 # Naming Conventions
 
 Additional interfaces, which are not present in Ember sources or docs, are prefixed with 'Ts'.
+
+# Current Status
+
+Suspended. After some use of TS in my Ember project, I've realized it has few critical problems at the moment:
+
+1. TypeScript's compiler and corresponding mode in IDEA both
+   are unacceptably slow when working with more than few files.
+2. Lack of [this-typing](https://typescript.codeplex.com/workitem/507).
+3. Lack of [union-types](https://typescript.codeplex.com/workitem/1364).
+
+Actually, only the first one really makes me stop using it for now.
